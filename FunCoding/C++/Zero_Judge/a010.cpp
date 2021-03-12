@@ -2,7 +2,7 @@
 #include<cstdlib>
 
 using namespace std;
-
+//
 int main()
 {
     int i, a, n;
