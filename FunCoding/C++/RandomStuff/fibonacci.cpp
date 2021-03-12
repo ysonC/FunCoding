@@ -34,5 +34,5 @@ int main()
         b = c;
 
     }
-    cout << "\n" << c;
+    cout << "\n" << c << endl;
 }
