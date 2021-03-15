@@ -31,7 +31,7 @@ int main ()
     {
         if (m > n )
             m -= n;
-        else if (n > m )
+        else
             n -= m;
         /*
         if(m>n)
