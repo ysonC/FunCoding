@@ -5,34 +5,35 @@ using namespace std;
 int main()
 {
     int cases, n,tmp;
-    cin >> n;
     int store[100];
 
-
-    // while (n--)
-    // {
-    //     int cnt = 0;
-    //     cin >> store[cnt];
-    //     cnt ++;
-    // }
-
-    for (int i = 0; i < n; i++)
+    cin >> cases;
+    while (cases--)
     {
-        cin >> store[i];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        if (store[i] > store[i+1])
+    cin >> n;
+        for (int i = 0; i < n; i++)
         {
-            tmp = store[i+1];
-            store[i+1] = store[i];
-            store[i] = tmp;
-            i = 0;
+            cin >> store[i];
         }
-    }
+        for (int i = 0; i < n; i++)
+        {
+            if (store[i] > store[i+1])
+            {
+                tmp = store[i+1];
+                store[i+1] = store[i];
+                store[i] = tmp;
+                i = -1;
+            }
+            else if (store[i] == store[i+1])
+            {
+                continue;
+            }
+        }
 
-    for (int i = 0; i < n; i++)
-    {
-        cout << store[i];
+        for (int i = 0; i < n; i++)
+        {
+            cout << store[i];
+        }
+        cout << endl;
     }
 }
