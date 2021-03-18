@@ -11,3 +11,18 @@ perfects n = [x | x <- [1..n], perfect x]
 
 fac :: Int -> Int 
 fac n = product [1..n]
+
+replicate1 :: Int -> a-> [a]
+replicate1 0 x = []
+replicate1 n x = x : replicate1 (n-1) x
+
+(!!!) :: [a] -> Int -> a
+(x:_) !!! 0 = x
+(_:xs) !!! n = xs !!! (n-1)
+
+insert :: Int -> [Int] -> [Int]
+insert x [] = [x]
+insert x (y:ys) = if x <= y then
+                    x:y:ys
+                    else
+                        y:insert x ys
