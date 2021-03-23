@@ -46,7 +46,7 @@ void oneMissing(char right[], char wrong[], int rightLen, int wrongLen)
     }
     cout << "None missing" << endl;
 }
-
+ 
 int main()
 {
 
