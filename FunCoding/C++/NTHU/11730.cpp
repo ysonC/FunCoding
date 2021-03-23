@@ -7,10 +7,13 @@ using namespace std;
 //    return a++;
 // }
 
-bool diffLenghtChar(char correct[100], char check[100])
+int const SIZE = 200000;
+int tasks[4] = {0};
+
+bool diffLenghtChar(char correct[SIZE], char check[SIZE])
 {
     int correctCnt = 0;
-    int checkCnt = 0;
+    int checkCnt = 0;   
     int totalCnt = 0;
     for (int i = 0; correct[i] != '\0'; i++)
         correctCnt++; 
@@ -33,10 +36,16 @@ bool diffLenghtChar(char correct[100], char check[100])
 
 }
 
-int wrongChar(char correct[100], char check[100])
-{
+int wrongChar(char correct[SIZE], char check[SIZE])
+{   
     int cnt = 0;
-    for(int i=0; i<100 && correct[i]!='\0'; i++)
+    int correctCnt = 0;
+    for (int i = 0; correct[i] != '\0'; i++)
+        correctCnt++; 
+    
+    cout << correctCnt << endl;
+
+    for(int i=0; i < correctCnt && correct[i]!='\0'; i++)
     {
         if (correct[i] != check[i])
         {
@@ -45,25 +54,26 @@ int wrongChar(char correct[100], char check[100])
             {
                 //cout << "One wrong char" << endl;
                 cnt++;
-                break;
+                
             }
-            else if (correct[i] == check[i+1] && correct[i+1] == check[i] && diffLenghtChar(correct,check) == false)
+            else if (correct[i] == check[i+1] &&  
+             (correct[i+1] == check[i] )  && 
+             !diffLenghtChar(correct,check)
+             )
             {
                 //cout << "Switch place Char" << endl;
                 cnt++;
-                break;
+                i++;
             }
-            else if (diffLenghtChar(correct,check) == true && correct[i] == check[i+1] || diffLenghtChar(correct,check) == true)
+            else if ((diffLenghtChar(correct,check) == true && correct[i] == check[i+1]) || diffLenghtChar(correct,check))
             {
                 cnt++;
                 //cout << "Missing one" << endl;
-                break;
             }
             else 
             {
                 //cout << "More than one wrong char" << endl;
                 cnt += 2;
-                break;
             }
         }
     }
@@ -81,8 +91,8 @@ int wrongChar(char correct[100], char check[100])
 
 int main()
 {
-    char correct[100];
-    char input[100];
+    char correct[SIZE];
+    char input[SIZE];
     int t;
     int rightOrWrong;
     cin >> t;
@@ -98,9 +108,9 @@ int main()
         //cout << rightOrWrong << endl;
         //cout << diffLenghtChar(correct,input) << endl;
 
-        if (rightOrWrong > 1 || rightOrWrong == 0)
-            cout << "No" << endl;
+        if (rightOrWrong == 1)
+            cout << "Yes" << endl;
         else
-            cout<< "Yes" << endl;
+            cout<< "No" << endl;
     }
 }
