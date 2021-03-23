@@ -1,116 +1,166 @@
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
-// int counter(int a)
-// {
-//    return a++;
-// }
+// function :: oneWrong, oneSwitch, oneMissing, oneMore
 
-int const SIZE = 200000;
-int tasks[4] = {0};
-
-bool diffLenghtChar(char correct[SIZE], char check[SIZE])
+int oneMissing(char right[], char wrong[], int rightLen, int wrongLen)
 {
-    int correctCnt = 0;
-    int checkCnt = 0;   
-    int totalCnt = 0;
-    for (int i = 0; correct[i] != '\0'; i++)
-        correctCnt++; 
-    for (int i = 0; check[i] != '\0'; i++)
-        checkCnt++;
-    if (correctCnt != checkCnt)
-    {
-        //cout << "Different length" << endl; // return true 
-        totalCnt++;
-    }
-    // else
-    //     cout << "Same length" << endl; // return false
-
-    //cout << "diffCnt = " << totalCnt << endl;
-
-    if (totalCnt == 1)
-        return true;
-    else
-        return false;
-
-}
-
-int wrongChar(char correct[SIZE], char check[SIZE])
-{   
+    int missing;
     int cnt = 0;
-    int correctCnt = 0;
-    for (int i = 0; correct[i] != '\0'; i++)
-        correctCnt++; 
+    missing = rightLen - wrongLen;
+    //cout << missing << endl;
     
-    cout << correctCnt << endl;
-
-    for(int i=0; i < correctCnt && correct[i]!='\0'; i++)
+    if (missing == 1)
     {
-        if (correct[i] != check[i])
+        for (int i = 0; i < rightLen; i++)
         {
-
-            if (correct[i+1] == check[i+1] && diffLenghtChar(correct,check) == false)
-            {
-                //cout << "One wrong char" << endl;
-                cnt++;
-                
-            }
-            else if (correct[i] == check[i+1] &&  
-             (correct[i+1] == check[i] )  && 
-             !diffLenghtChar(correct,check)
-             )
-            {
-                //cout << "Switch place Char" << endl;
-                cnt++;
-                i++;
-            }
-            else if ((diffLenghtChar(correct,check) == true && correct[i] == check[i+1]) || diffLenghtChar(correct,check))
-            {
-                cnt++;
-                //cout << "Missing one" << endl;
-            }
-            else 
-            {
-                //cout << "More than one wrong char" << endl;
-                cnt += 2;
+            if (right[i] != wrong[i])
+            {   
+                for(int j = i+1; j < rightLen; j++)
+                {
+                    if (right[j] != wrong[j-1])
+                    {
+                        //cout << "More than one wrong" << endl;
+                        cnt += 2;
+                    }
+                }
             }
         }
-    }
-    // if (cnt == 0)
-    //     cout << "All same char" << endl;
-
-    if (cnt == 0 && diffLenghtChar(correct,check) == true)
-    {
+        //cout << "Only one missing or extra" << endl;
         cnt++;
     }
+
+    else if (missing == -1)
+    {
+        for (int i = 0; i < wrongLen; i++)
+        {
+            if (wrong[i] != right[i])
+            {   
+                for(int j = i+1; j < wrongLen; j++)
+                {
+                    if (wrong[j] != right[j-1])
+                    {
+                        //cout << "More than one wrong" << endl;
+                        cnt += 2;
+                    }
+                }
+            }
+        }
+        //cout << "Only one missing or extra" << endl;
+        cnt++;
+    }
+
+    // else if (missing == 0)
+    //     cout << "None missing or added" << endl;
 
     return cnt;
 }
 
+// void oneWrong(char right[], char wrong[], int rightLen, int wrongLen)
+// {
+//     int missing;
+//     int cnt;
+//     cnt = 0;
+//     missing = rightLen - wrongLen;
+//     if (missing == 0)
+//     {
+//         for(int i = 0; i < rightLen; i++)
+//         {
+//             if (right[i] != wrong[i])
+//             {
+//                 cnt++;
+//             }
+//         }
+//     }
+//     if (cnt == 1)
+//         cout << "one wrong" << endl;
+//     else if (cnt == 0)
+//         cout << "no wrong" << endl;
+//     else
+//         cout << "more than one wrong" << endl;
+// }
+
+int oneSwitch(char right[], char wrong[], int rightLen, int wrongLen)
+{
+    int missing;
+    int cnt = 0;
+    missing = rightLen - wrongLen;
+    if (missing == 0)
+    {
+        for(int i = 0; i < rightLen; i++)
+        {
+            if (right[i] != wrong[i])
+            {
+                if (right[i] == wrong[i+1] && right[i+1] == wrong[i])
+                {
+                    //cout << "one switch" << endl;
+                    i++;
+                    cnt++;
+                }
+                else
+                {
+                    //cout << "one wrong" << endl;
+                    cnt++;
+                }
+
+            }  
+        }
+    }
+    // if (cnt == 1)
+    //     cout << "only one switch or wrong" << endl;
+    // else if (cnt == 0)
+    //     cout << "None wrong" << endl;
+    // else 
+    //     cout << "More than one wrong" << endl;
+    
+    return cnt;
+}
+ 
+int addwhile() // kinda main
+{
+
+    string input1;
+    string input2;
+    int checkMissing;
+    int checkWrong;
+    int checkYesOrNo;
+
+    cin >> input1;
+    cin >> input2;
+
+    char right[input1.length()+1];
+    strcpy (right, input1.c_str());
+    char wrong[input2.length()+1];
+    strcpy (wrong, input2.c_str());
+
+    checkMissing = oneMissing(right,wrong,input1.length()+1,input2.length()+1);
+    checkWrong = oneSwitch(right,wrong,input1.length()+1,input2.length()+1);
+    checkYesOrNo = checkWrong + checkMissing;
+
+    if (checkYesOrNo == 1)
+        cout << "Yes" << endl;
+    else 
+        cout << "No" << endl;
+
+    return 0;
+    }
+
 
 int main()
 {
-    char correct[SIZE];
-    char input[SIZE];
-    int t;
-    int rightOrWrong;
-    cin >> t;
-    while (t--)
+    int n;
+    cin >> n;
+    while(n--)
     {
-        cin >> correct >> input;
-        
-        //rightOrWrong = diffLenghtChar(correct,input) + wrongChar(correct,input);
-
-        rightOrWrong = wrongChar(correct,input);
-
-        //cout << rightOrWrong << endl;
-        //cout << rightOrWrong << endl;
-        //cout << diffLenghtChar(correct,input) << endl;
-
-        if (rightOrWrong == 1)
-            cout << "Yes" << endl;
-        else
-            cout<< "No" << endl;
+        addwhile();
     }
 }
+
+// int research()
+// {   
+//     string myWord = "myWord";
+//     char myArray[myWord.size()+1];
+//     strcpy(myArray, myWord.c_str());
+// }

@@ -4,8 +4,7 @@
 using namespace std;
 
 // function :: oneWrong, oneSwitch, oneMissing, oneMore
-// govern ment gover ment
-// 012345 6789 01234 5678
+
 
 // int checkRest(char right[], char wrong[],int rightLen, int wrongLen)
 // {
@@ -17,13 +16,12 @@ using namespace std;
 
 // }
 
-void oneMissing(char right[], char wrong[], int rightLen, int wrongLen)
+int oneMissing(char right[], char wrong[], int rightLen, int wrongLen)
 {
     int missing;
-    bool check;
-    int cnt;
+    int cnt = 0;
     missing = rightLen - wrongLen;
-    cout << missing << endl;
+    //cout << missing << endl;
     
     if (missing == 1)
     {
@@ -31,27 +29,114 @@ void oneMissing(char right[], char wrong[], int rightLen, int wrongLen)
         {
             if (right[i] != wrong[i])
             {   
-                cout << right[i] << endl;
-                cout << wrong[i] << endl;
                 for(int j = i+1; j < rightLen; j++)
                 {
                     if (right[j] != wrong[j-1])
                     {
-                        cout << "More than one wrong" << endl;
+                        //cout << "More than one wrong" << endl;
+                        cnt += 2;
                     }
                 }
             }
         }
-        cout << "Only one missing" << endl;
+        //cout << "Only one missing or extra" << endl;
+        cnt++;
     }
-    cout << "None missing" << endl;
+
+    else if (missing == -1)
+    {
+        for (int i = 0; i < wrongLen; i++)
+        {
+            if (wrong[i] != right[i])
+            {   
+                for(int j = i+1; j < wrongLen; j++)
+                {
+                    if (wrong[j] != right[j-1])
+                    {
+                        //cout << "More than one wrong" << endl;
+                        cnt += 2;
+                    }
+                }
+            }
+        }
+        //cout << "Only one missing or extra" << endl;
+        cnt++;
+    }
+
+    // else if (missing == 0)
+    //     cout << "None missing or added" << endl;
+
+    return cnt;
+}
+
+// void oneWrong(char right[], char wrong[], int rightLen, int wrongLen)
+// {
+//     int missing;
+//     int cnt;
+//     cnt = 0;
+//     missing = rightLen - wrongLen;
+//     if (missing == 0)
+//     {
+//         for(int i = 0; i < rightLen; i++)
+//         {
+//             if (right[i] != wrong[i])
+//             {
+//                 cnt++;
+//             }
+//         }
+//     }
+//     if (cnt == 1)
+//         cout << "one wrong" << endl;
+//     else if (cnt == 0)
+//         cout << "no wrong" << endl;
+//     else
+//         cout << "more than one wrong" << endl;
+// }
+
+int oneSwitch(char right[], char wrong[], int rightLen, int wrongLen)
+{
+    int missing;
+    int cnt = 0;
+    missing = rightLen - wrongLen;
+    if (missing == 0)
+    {
+        for(int i = 0; i < rightLen; i++)
+        {
+            if (right[i] != wrong[i])
+            {
+                if (right[i] == wrong[i+1] && right[i+1] == wrong[i])
+                {
+                    //cout << "one switch" << endl;
+                    i++;
+                    cnt++;
+                }
+                else
+                {
+                    //cout << "one wrong" << endl;
+                    cnt++;
+                }
+
+            }  
+        }
+    }
+    // if (cnt == 1)
+    //     cout << "only one switch or wrong" << endl;
+    // else if (cnt == 0)
+    //     cout << "None wrong" << endl;
+    // else 
+    //     cout << "More than one wrong" << endl;
+    
+    return cnt;
 }
  
-int main()
+int addwhile()
 {
 
     string input1;
     string input2;
+    int checkMissing;
+    int checkWrong;
+    int checkYesOrNo;
 
     cin >> input1;
     cin >> input2;
@@ -61,8 +146,27 @@ int main()
     char wrong[input2.length()+1];
     strcpy (wrong, input2.c_str());
 
-    oneMissing(right,wrong,input1.length(),input2.length());
-}
+    checkMissing = oneMissing(right,wrong,input1.length()+1,input2.length()+1);
+    checkWrong = oneSwitch(right,wrong,input1.length()+1,input2.length()+1);
+    checkYesOrNo = checkWrong + checkMissing;
+
+    if (checkYesOrNo == 1)
+        cout << "Yes" << endl;
+    else 
+        cout << "No" << endl;
+
+    return 0;
+    }
+
+    int main()
+    {
+        int n;
+        cin >> n;
+        while(n--)
+        {
+            addwhile();
+        }
+    }
 
 // int research()
 // {   
